@@ -1,7 +1,16 @@
+
+/* --------------------------------------------------------------------------------------------------------
+Function: Batchnorm (Aleternative to nn.Batchnorm1d()) for CPU
+
+Author: Ramanarayan Mohanty (Intel Corp.) & MD Vasimuddin(Intel Corp.)
+
+-----------------------------------------------------------------------------------------------------------
+*/ 
+
+
 #include <torch/extension.h>
 #include <immintrin.h>
 #include <omp.h>
-// #include <mkl.h>
 #include <iostream>
 #include <cmath> 
 #include <tuple>
@@ -12,38 +21,7 @@
 #include <immintrin.h>
 
 # define eps 1e-7f
-#define min(a,b) (((a)<(b))?(a):(b))
-#define max(a,b) (((a)>(b))?(a):(b))
 
-#if 0
-void print_matrix(float* data, int rows, int cols, bool is_rowmajor){
-    for (int i = 0; i < min(rows, 20); ++i)
-    {
-        for (int j = 0; j < min(cols, 20); ++j)
-        {
-            if(is_rowmajor){
-                std::cout << std::setw(3) << data[i*cols + j] << " ";
-            }else{
-                std::cout << std::setw(3) << data[j*rows + i] << " ";
-            }
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-}
-
-
-void print_m512Var (__m512 in)
-{
-    alignas(16) float v[16];
-    _mm512_store_ps((__m512*) v, in);
-    std::cout << "v16_flt:" << v[0] << " " << v[1] << " " <<v[2] << " " <<v[3] << " | "
-                            <<  v[4] << " " << v[5] << " " << v[6] << " " << v[7] << " | " <<
-                                v[8] << " " << v[9] << " " << v[10] << " " << v[11] << " | " <<
-                                v[12] << " " << v[13] << " " << v[14] << " " << v[15] << " " << std::endl;
-}
-
-#endif
 
 std::tuple<at::Tensor, at::Tensor, at::Tensor, at::Tensor>
 batchnorm_fwd_impl(at::Tensor& input, at::Tensor tgamma, at::Tensor tbeta)//, at::Tensor& inNrm)

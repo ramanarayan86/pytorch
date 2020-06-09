@@ -1,3 +1,12 @@
+/* --------------------------------------------------------------------------------------------------------
+Function: Embedding (Alternative to nn.Embedding()) for CPU
+
+Author: Ramanarayan Mohanty (Intel Corp.)
+
+-----------------------------------------------------------------------------------------------------------
+*/
+
+
 #include <torch/extension.h>
 #include <immintrin.h>
 #include <omp.h>
