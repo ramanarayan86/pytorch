@@ -23,6 +23,7 @@ To use this version of the Embedding() you have to follwo these steps:
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 Example:
+
 	input = torch.LongTensor([[1,2,4,5],[4,3,2,9]])
 	
 	EmbeddingExt(input)
